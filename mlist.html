@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Collection</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            flex-direction: column;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input {
+            padding: 12px;
+            width: 80%;
+            border: 2px solid #2575fc;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #2575fc;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #1a56d2;
+        }
+        .movie-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .movie-card {
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .movie-card:hover {
+            background: #bbdefb;
+        }
+        #clearList {
+            margin-top: 15px;
+            background: #d32f2f;
+        }
+        #clearList:hover {
+            background: #b71c1c;
+        }
+        #movieCount {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>My Movie Collection</h1>
+        <p>Keep track of your favorite movies easily!</p>
+    </div>
+    <div class="container">
+        <input type="text" id="movieInput" placeholder="Enter movie name">
+        <button id="addMovie">Add Movie</button>
+        <div class="movie-list" id="movieList"></div>
+        <p id="movieCount">Total Movies: 0</p>
+        <button id="clearList">Clear List</button>
+    </div>
+    <script>
+        const movieInput = document.getElementById('movieInput');
+        const addMovieBtn = document.getElementById('addMovie');
+        const movieList = document.getElementById('movieList');
+        const movieCount = document.getElementById('movieCount');
+        const clearListBtn = document.getElementById('clearList');
+        
+        let movies = [];
+        
+        function updateMovieList() {
+            movieList.innerHTML = '';
+            movies.forEach((movie, index) => {
+                const div = document.createElement('div');
+                div.classList.add('movie-card');
+                div.innerHTML = `<span>${movie}</span><br><button onclick="removeMovie(${index})" style="margin-top:5px; padding:5px; border:none; background:#d32f2f; color:white; border-radius:5px; cursor:pointer;">Remove</button>`;
+                movieList.appendChild(div);
+            });
+            movieCount.textContent = `Total Movies: ${movies.length}`;
+        }
+        
+        function addMovie() {
+            const movieName = movieInput.value.trim();
+            if (movieName === '') return;
+            movies.push(movieName);
+            movieInput.value = '';
+            updateMovieList();
+        }
+        
+        function removeMovie(index) {
+            movies.splice(index, 1);
+            updateMovieList();
+        }
+        
+        function clearMovies() {
+            movies = [];
+            updateMovieList();
+        }
+        
+        addMovieBtn.addEventListener('click', addMovie);
+        clearListBtn.addEventListener('click', clearMovies);
+    </script>
+</body>
+</html>
